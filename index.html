@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Llutid+ Registro</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .form-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #34495e;
+    }
+
+    .form-box label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #34495e;
+    }
+
+    .form-box input, .form-box select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .form-box button:hover {
+      background-color: #2980b9;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .admin-link {
+      margin-top: 15px;
+      text-align: center;
+      color: #2980b9;
+      cursor: pointer;
+    }
+
+    .admin-link:hover {
+      text-decoration: underline;
+    }
+
+    .admin-login, .admin-panel {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 30px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-login input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .admin-panel table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .admin-panel th, .admin-panel td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .admin-panel th {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .admin-panel td button {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .admin-panel td button:hover {
+      background-color: #3498db;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Llutid+</header>
+
+  <div class="container">
+    <!-- REGISTRO -->
+    <div class="form-box">
+      <h2>Registro de Usuario</h2>
+      <form id="registroForm">
+        <label>Nombre completo:</label>
+        <input type="text" id="nombre" required>
+
+        <label>Correo electrónico:</label>
+        <input type="email" id="correo" required>
+
+        <label>Selecciona tu país:</label>
+        <select id="pais" required>
+          <option value="+57">Colombia (+57)</option>
+          <option value="+1">Estados Unidos (+1)</option>
+          <option value="+34">España (+34)</option>
+          <option value="+52">México (+52)</option>
+          <option value="+51">Perú (+51)</option>
+          <option value="+54">Argentina (+54)</option>
+        </select>
+
+        <label>Celular:</label>
+        <input type="tel" id="celular" required>
+
+        <label>Crea un PIN de 4 dígitos:</label>
+        <input type="number" id="pin" maxlength="4" required>
+
+        <button type="submit">Registrarse</button>
+      </form>
+      <p id="mensajeConfirmacion" class="hidden">✅ En unos minutos podrás ingresar con tu correo y tu PIN a Llutid+ mientras un asesor registra tu información.</p>
+
+      <p class="admin-link" onclick="mostrarLogin()">Entrar como administrador</p>
+    </div>
+
+    <!-- LOGIN ADMIN (por separado) -->
+    <div class="admin-login hidden" id="adminLogin">
+      <h3>Contraseña de administrador</h3>
+      <input type="password" id="adminPass" placeholder="Ingresa contraseña">
+      <button onclick="verificarAdmin()">Entrar</button>
+      <p id="adminError" style="color:red;"></p>
+    </div>
+
+    <!-- PANEL ADMIN -->
+    <div class="admin-panel hidden" id="adminPanel">
+      <h2>Plantilla de Usuarios Registrados</h2>
+      <table id="tablaUsuarios">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Celular</th>
+            <th>PIN</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("registroForm");
+    const mensaje = document.getElementById("mensajeConfirmacion");
+    const tabla = document.querySelector("#tablaUsuarios tbody");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nombre").value;
+      const correo = document.getElementById("correo").value;
+      const pais = document.getElementById("pais").value;
+      const celular = document.getElementById("celular").value;
+      const pin = document.getElementById("pin").value;
+
+      const fullNumber = pais + celular;
+      const fechaActivacion = new Date();
+      const fechaFinal = new Date(fechaActivacion);
+      fechaFinal.setDate(fechaFinal.getDate() + 30);
+
+      // Agregar hora y segundos a la fecha
+      const formatoFecha = (f) => `${f.getDate().toString().padStart(2, '0')}/${(f.getMonth()+1).toString().padStart(2, '0')}/${f.getFullYear()} ${f.getHours().toString().padStart(2, '0')}:${f.getMinutes().toString().padStart(2, '0')}:${f.getSeconds().toString().padStart(2, '0')}`;
+
+      // Estado de la factura
+      const estado = obtenerEstado(fechaFinal);
+
+      // Generar código de factura único
+      const codigoFactura = generarCodigoFactura();
+
+      // Guardar en localStorage
+      const usuario = {
+        nombre,
+        correo,
+        celular: fullNumber,
+        pin,
+        fechaActivacion: formatoFecha(fechaActivacion),
+        fechaFinal: formatoFecha(fechaFinal),
+        estado,
+        codigoFactura
+      };
+
+      // Guardar usuario en localStorage
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      usuarios.push(usuario);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+      // Guardar en la tabla
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${nombre}</td>
+        <td>${correo}</td>
+        <td>${fullNumber}</td>
+        <td>${pin}</td>
+        <td>${estado}</td>
+        <td><button onclick="enviarFactura('${nombre}', '${correo}', '${fullNumber}', '${pin}', '${formatoFecha(fechaActivacion)}', '${formatoFecha(fechaFinal)}', '${codigoFactura}')">Enviar WhatsApp</button></td>
+      `;
+      tabla.appendChild(row);
+
+      mensaje.classList.remove("hidden");
+      form.reset();
+    });
+
+    // Función para generar un código único para la factura
+    function generarCodigoFactura() {
+      const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let codigo = "";
+      for (let i = 0; i < 8; i++) {
+        const aleatorio = Math.floor(Math.random() * caracteres.length);
+        codigo += caracteres.charAt(aleatorio);
+      }
+      return codigo;
+    }
+
+    function mostrarLogin() {
+      document.getElementById("adminLogin").classList.remove("hidden");
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function verificarAdmin() {
+      const pass = document.getElementById("adminPass").value;
+      if (pass === "admin123") {
+        document.getElementById("adminPanel").classList.remove("hidden");
+        document.getElementById("adminLogin").classList.add("hidden");
+      } else {
+        document.getElementById("adminError").textContent = "Contraseña incorrecta.";
+      }
+    }
+
+    function obtenerEstado(fechaFinal) {
+      const hoy = new Date();
+      return hoy > fechaFinal ? "Expirado" : "Activo";
+    }
+
+    function enviarFactura(nombre, correo, numero, pin, activacion, finaliza, codigoFactura) {
+      const mensaje = `Hola ${nombre}! 👋%0A%0AEsta es tu facturación de Llutid+ 📺%0A%0A📅 Fecha de activación: ${activacion}%0A⏳ Fecha de finalización: ${finaliza}%0A🔑 PIN: ${pin}%0A📧 Correo: ${correo}%0A🧾 Código de factura: ${codigoFactura}%0A%0ADisfruta del contenido exclusivo de Llutid+ 🎬`;
+
+      const url = `https://wa.me/${numero.replace('+', '')}?text=${mensaje}`;
+      window.open(url, "_blank");
+    }
+  </script>
+
+</body>
+</html>
