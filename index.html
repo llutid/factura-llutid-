@@ -1,310 +1,303 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Llutid+ Registro</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualización de Pago Llutid+</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
-    header {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 24px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-      padding: 20px;
-    }
+        body {
+            background-color: #121212;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .form-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
+        .container {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 191, 255, 0.2);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+        }
 
-    .form-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #34495e;
-    }
+        h2 {
+            color: #00bfff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
 
-    .form-box label {
-      display: block;
-      margin: 10px 0 5px;
-      color: #34495e;
-    }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-    .form-box input, .form-box select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
+        label {
+            color: #aaa;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
 
-    .form-box button {
-      width: 100%;
-      padding: 10px;
-      background-color: #2c3e50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 18px;
-      cursor: pointer;
-    }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select {
+            background-color: #2a2a2a;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            padding: 12px 20px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
 
-    .form-box button:hover {
-      background-color: #2980b9;
-    }
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #00bfff;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+        }
 
-    .hidden {
-      display: none;
-    }
+        button {
+            background-color: #00bfff;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            padding: 14px 25px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
 
-    .admin-link {
-      margin-top: 15px;
-      text-align: center;
-      color: #2980b9;
-      cursor: pointer;
-    }
+        button:hover {
+            background-color: #1E90FF; /* Dodger Blue */
+        }
 
-    .admin-link:hover {
-      text-decoration: underline;
-    }
+        .info-registro-text {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            margin-top: 30px;
+            padding: 20px;
+            white-space: pre-line; /* Respeta los saltos de línea */
+            font-size: 1rem;
+            color: #d3d3d3;
+            display: none;
+            text-align: left; /* Alinea el texto a la izquierda */
+        }
 
-    .admin-login, .admin-panel {
-      width: 100%;
-      max-width: 400px;
-      margin-top: 30px;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .info-registro-text h3 {
+            color: #00bfff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-align: left; /* Alinea el título a la izquierda */
+        }
 
-    .admin-login input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
+         .info-registro-text .logo-factura {
+            max-width: 150px; /* Ajusta el tamaño del logo */
+            margin-bottom: 15px; /* Elimina el margen horizontal para que se alinee a la izquierda */
+            display: block; /* Asegura que la imagen se comporte como un bloque */
+            text-align: left; /* Alinea la imagen a la izquierda */
+        }
 
-    .admin-panel table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
+        .info-registro-text .logo-factura img {
+            width: 100%; /* La imagen se ajusta al ancho del contenedor */
+            height: auto;
+        }
 
-    .admin-panel th, .admin-panel td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
+        .info-registro-text p b {
+            color: #aaa; /* Estilo para las etiquetas de los datos */
+        }
 
-    .admin-panel th {
-      background-color: #34495e;
-      color: white;
-    }
+        .info-registro-text .compartir-whatsapp-btn {
+            background-color: #25D366; /* Color de WhatsApp */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-decoration: none; /* Para evitar subrayado en el enlace */
+        }
 
-    .admin-panel td button {
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+        .info-registro-text .compartir-whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
 
-    .admin-panel td button:hover {
-      background-color: #3498db;
-    }
-  </style>
+        .enlace-plataforma {
+            margin-top: 20px;
+            text-align: left; /* Alinea el enlace a la izquierda */
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .enlace-plataforma a {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        .enlace-plataforma a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Actualización de Datos Llutid<span>+</span></h2>
+        <form id="registroForm">
+            <div class="form-group">
+                <label for="nombreCompleto"><b>Nombre Completo:</b></label>
+                <input type="text" id="nombreCompleto" name="nombreCompleto" required>
+            </div>
+            <div class="form-group">
+                <label for="pais"><b>País:</b></label>
+                <select id="pais" name="pais" required>
+                    <option value="">Seleccionar país</option>
+                    <option value="+57">Colombia +57</option>
+                    </select>
+            </div>
+            <div class="form-group">
+                <label for="celular"><b>Número de Celular:</b></label>
+                <input type="tel" id="celular" name="celular" required>
+            </div>
+            <div class="form-group">
+                <label for="email"><b>Correo Electrónico:</b></label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="pinAcceso"><b>PIN de 4 dígitos de acceso:</b></label>
+                <input type="number" id="pinAcceso" name="pinAcceso" min="1000" max="9999" required>
+            </div>
+            <button type="button" onclick="mostrarFacturacion()">Actualizar Datos y Ver Factura</button>
 
-  <header>Llutid+</header>
-
-  <div class="container">
-    <!-- REGISTRO -->
-    <div class="form-box">
-      <h2>Registro de Usuario</h2>
-      <form id="registroForm">
-        <label>Nombre completo:</label>
-        <input type="text" id="nombre" required>
-
-        <label>Correo electrónico:</label>
-        <input type="email" id="correo" required>
-
-        <label>Selecciona tu país:</label>
-        <select id="pais" required>
-          <option value="+57">Colombia (+57)</option>
-          <option value="+1">Estados Unidos (+1)</option>
-          <option value="+34">España (+34)</option>
-          <option value="+52">México (+52)</option>
-          <option value="+51">Perú (+51)</option>
-          <option value="+54">Argentina (+54)</option>
-        </select>
-
-        <label>Celular:</label>
-        <input type="tel" id="celular" required>
-
-        <label>Crea un PIN de 4 dígitos:</label>
-        <input type="number" id="pin" maxlength="4" required>
-
-        <button type="submit">Registrarse</button>
-      </form>
-      <p id="mensajeConfirmacion" class="hidden">✅ En unos minutos podrás ingresar con tu correo y tu PIN a Llutid+ mientras un asesor registra tu información.</p>
-
-      <p class="admin-link" onclick="mostrarLogin()">Entrar como administrador</p>
+            <div id="infoRegistroTexto" class="info-registro-text">
+                <div class="logo-factura">
+                    <img src="WhatsApp Image 2025-05-14 at 8.19.51 PM.jpeg" alt="Logo Llutid+">
+                </div>
+                <h3><b>Facturación de Actualización Llutid<span>+</span></b></h3>
+                <p><b>Estimado/a:</b> <span id="regNombreTexto"></span>,</p>
+                <p>Adjuntamos los detalles actualizados de su cuenta y la información de facturación correspondiente al periodo actual.</p>
+                <br>
+                <p><b>Información del Usuario:</b></p>
+                <p><b>Nombre:</b> <span id="regNombreTextoInfo"></span></p>
+                <p><b>País:</b> <span id="regPaisTexto"></span></p>
+                <p><b>Celular:</b> <span id="regCelularTexto"></span></p>
+                <p><b>Correo Electrónico:</b> <span id="regEmailTexto"></span></p>
+                <p><b>PIN de Acceso:</b> <span id="regPinTexto"></span></p>
+                <br>
+                <p><b>Detalles de Facturación:</b></p>
+                <p><b>Fecha de Actualización:</b> <span id="regFechaTexto"></span></p>
+                <p><b>Número de Factura:</b> <span id="regCodigoTexto"></span></p>
+                <p><b>Fecha de Vencimiento:</b> <span id="regProximoPagoTexto"></span></p>
+                <br>
+                <p><b>Nota Legal:</b></p>
+                <p>En cumplimiento con las regulaciones de protección al consumidor, Llutid+ le informa sobre la actualización de sus datos y los detalles de facturación correspondientes a su servicio. Este derecho a la información garantiza la transparencia y claridad en nuestra relación comercial.</p>
+                <br>
+                <a href="https://llutid.github.io/pagina-principal/" class="compartir-whatsapp-btn" onclick="compartirWhatsAppTexto()">Compartir por WhatsApp</a>
+                <p class="enlace-plataforma">Te recordamos el enlace de nuestra plataforma Llutid+ en la web: <a href="https://llutid.github.io/pagina-principal/" target="_blank">https://llutid.github.io/pagina-principal/</a></p>
+            </div>
+        </form>
     </div>
 
-    <!-- LOGIN ADMIN (por separado) -->
-    <div class="admin-login hidden" id="adminLogin">
-      <h3>Contraseña de administrador</h3>
-      <input type="password" id="adminPass" placeholder="Ingresa contraseña">
-      <button onclick="verificarAdmin()">Entrar</button>
-      <p id="adminError" style="color:red;"></p>
-    </div>
+    <script>
+        const infoRegistroTextoDiv = document.getElementById("infoRegistroTexto");
+        infoRegistroTextoDiv.style.display = "none";
 
-    <!-- PANEL ADMIN -->
-    <div class="admin-panel hidden" id="adminPanel">
-      <h2>Plantilla de Usuarios Registrados</h2>
-      <table id="tablaUsuarios">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Celular</th>
-            <th>PIN</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
+        function mostrarFacturacion() {
+            const nombre = document.getElementById("nombreCompleto").value;
+            const paisSeleccionado = document.getElementById("pais").value;
+            const celular = document.getElementById("celular").value;
+            const email = document.getElementById("email").value;
+            const pin = document.getElementById("pinAcceso").value;
+            const fechaRegistro = new Date();
+            const fechaFormateada = fechaRegistro.toLocaleDateString() + " " + fechaRegistro.toLocaleTimeString();
+            const codigoRegistro = Math.random().toString(36).substring(2, 10).toUpperCase();
+            const proximoPago = new Date(fechaRegistro);
+            proximoPago.setDate(fechaRegistro.getDate() + 30);
+            const proximoPagoFormateado = proximoPago.toLocaleDateString();
 
-  <script>
-    const form = document.getElementById("registroForm");
-    const mensaje = document.getElementById("mensajeConfirmacion");
-    const tabla = document.querySelector("#tablaUsuarios tbody");
+            document.getElementById("regNombreTexto").textContent = nombre;
+            document.getElementById("regNombreTextoInfo").textContent = nombre;
+            document.getElementById("regPaisTexto").textContent = paisSeleccionado;
+            document.getElementById("regCelularTexto").textContent = celular;
+            document.getElementById("regEmailTexto").textContent = email;
+            document.getElementById("regPinTexto").textContent = pin;
+            document.getElementById("regFechaTexto").textContent = fechaFormateada;
+            document.getElementById("regCodigoTexto").textContent = codigoRegistro;
+            document.getElementById("regProximoPagoTexto").textContent = proximoPagoFormateado;
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
+            infoRegistroTextoDiv.style.display = "block";
+            alert("Datos actualizados. Desliza hacia abajo para ver la información de facturación y compartirla por WhatsApp.");
+        }
 
-      const nombre = document.getElementById("nombre").value;
-      const correo = document.getElementById("correo").value;
-      const pais = document.getElementById("pais").value;
-      const celular = document.getElementById("celular").value;
-      const pin = document.getElementById("pin").value;
+        function compartirWhatsAppTexto() {
+            const nombre = document.getElementById("regNombreTextoInfo").textContent;
+            const paisCodigo = document.getElementById("pais").value;
+            const numeroCelular = document.getElementById("celular").value;
+            const email = document.getElementById("regEmailTexto").textContent;
+            const pin = document.getElementById("regPinTexto").textContent;
+            const fechaActualizacion = document.getElementById("regFechaTexto").textContent;
+            const numeroFactura = document.getElementById("regCodigoTexto").textContent;
+            const proximoPago = document.getElementById("regProximoPagoTexto").textContent;
+            const plataformaLink = "https://llutid.github.io/pagina-principal/";
 
-      const fullNumber = pais + celular;
-      const fechaActivacion = new Date();
-      const fechaFinal = new Date(fechaActivacion);
-      fechaFinal.setDate(fechaFinal.getDate() + 30);
+            const numeroWhatsApp = paisCodigo + numeroCelular;
+            const espacio = "     "; // Ajusta la cantidad de espacios según sea necesario
 
-      // Agregar hora y segundos a la fecha
-      const formatoFecha = (f) => `${f.getDate().toString().padStart(2, '0')}/${(f.getMonth()+1).toString().padStart(2, '0')}/${f.getFullYear()} ${f.getHours().toString().padStart(2, '0')}:${f.getMinutes().toString().padStart(2, '0')}:${f.getSeconds().toString().padStart(2, '0')}`;
+            const mensaje = encodeURIComponent(`
+${espacio} 🧾 *Facturación de Llutid+ Actualizada* 🧾 ${espacio}
 
-      // Estado de la factura
-      const estado = obtenerEstado(fechaFinal);
+${espacio} *Estimado/a ${nombre},* ${espacio}
 
-      // Generar código de factura único
-      const codigoFactura = generarCodigoFactura();
+${espacio} A continuación, encontrará los detalles actualizados de su cuenta y la información de facturación correspondiente: ${espacio}
 
-      // Guardar en localStorage
-      const usuario = {
-        nombre,
-        correo,
-        celular: fullNumber,
-        pin,
-        fechaActivacion: formatoFecha(fechaActivacion),
-        fechaFinal: formatoFecha(fechaFinal),
-        estado,
-        codigoFactura
-      };
+     👤 *Información del Usuario:*
+      • *Nombre:* ${nombre}
+      • *País:* ${document.getElementById("regPaisTexto").textContent}
+      • *Celular:* ${numeroCelular}
+      • *Correo Electrónico:* ${email}
+      • *PIN de Acceso:* ${pin}
 
-      // Guardar usuario en localStorage
-      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-      usuarios.push(usuario);
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+     💰 *Detalles de Facturación:*
+      • *Fecha de Actualización:* ${fechaActualizacion}
+      • *Número de Factura:* ${numeroFactura}
+      • *Fecha de Vencimiento:* ${proximoPago}
 
-      // Guardar en la tabla
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${nombre}</td>
-        <td>${correo}</td>
-        <td>${fullNumber}</td>
-        <td>${pin}</td>
-        <td>${estado}</td>
-        <td><button onclick="enviarFactura('${nombre}', '${correo}', '${fullNumber}', '${pin}', '${formatoFecha(fechaActivacion)}', '${formatoFecha(fechaFinal)}', '${codigoFactura}')">Enviar WhatsApp</button></td>
-      `;
-      tabla.appendChild(row);
+---
+     📜 *Nota Legal:*
+    En cumplimiento con las regulaciones de protección al consumidor, Llutid+ le informa sobre la actualización de sus datos y los detalles de facturación correspondientes a su servicio. Este derecho a la información garantiza la transparencia y claridad en nuestra relación comercial.
 
-      mensaje.classList.remove("hidden");
-      form.reset();
-    });
+${espacio} 🌐 Enlace a nuestra plataforma: ${plataformaLink} ${espacio}
+`);
 
-    // Función para generar un código único para la factura
-    function generarCodigoFactura() {
-      const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let codigo = "";
-      for (let i = 0; i < 8; i++) {
-        const aleatorio = Math.floor(Math.random() * caracteres.length);
-        codigo += caracteres.charAt(aleatorio);
-      }
-      return codigo;
-    }
-
-    function mostrarLogin() {
-      document.getElementById("adminLogin").classList.remove("hidden");
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    function verificarAdmin() {
-      const pass = document.getElementById("adminPass").value;
-      if (pass === "admin123") {
-        document.getElementById("adminPanel").classList.remove("hidden");
-        document.getElementById("adminLogin").classList.add("hidden");
-      } else {
-        document.getElementById("adminError").textContent = "Contraseña incorrecta.";
-      }
-    }
-
-    function obtenerEstado(fechaFinal) {
-      const hoy = new Date();
-      return hoy > fechaFinal ? "Expirado" : "Activo";
-    }
-
-    function enviarFactura(nombre, correo, numero, pin, activacion, finaliza, codigoFactura) {
-      const mensaje = `Hola ${nombre}! 👋%0A%0AEsta es tu facturación de Llutid+ 📺%0A%0A📅 Fecha de activación: ${activacion}%0A⏳ Fecha de finalización: ${finaliza}%0A🔑 PIN: ${pin}%0A📧 Correo: ${correo}%0A🧾 Código de factura: ${codigoFactura}%0A%0ADisfruta del contenido exclusivo de Llutid+ 🎬`;
-
-      const url = `https://wa.me/${numero.replace('+', '')}?text=${mensaje}`;
-      window.open(url, "_blank");
-    }
-  </script>
-
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(urlWhatsApp, '_blank');
+        }
+    </script>
 </body>
 </html>
