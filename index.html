@@ -115,11 +115,11 @@
             text-align: left; /* Alinea el título a la izquierda */
         }
 
-         .info-registro-text .logo-factura {
+        .info-registro-text .logo-factura {
             max-width: 150px; /* Ajusta el tamaño del logo */
-            margin-bottom: 15px; /* Elimina el margen horizontal para que se alinee a la izquierda */
-            display: block; /* Asegura que la imagen se comporte como un bloque */
-            text-align: left; /* Alinea la imagen a la izquierda */
+            margin-bottom: 15px;
+            display: block;
+            text-align: left;
         }
 
         .info-registro-text .logo-factura img {
@@ -143,10 +143,29 @@
             transition: background-color 0.3s ease;
             display: inline-block;
             text-decoration: none; /* Para evitar subrayado en el enlace */
+            margin-right: 10px; /* Espacio entre botones */
         }
 
         .info-registro-text .compartir-whatsapp-btn:hover {
             background-color: #128C7E;
+        }
+
+        .info-registro-text .descargar-apk-btn {
+            background-color: #FFC107; /* Color de ejemplo para descarga APK */
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .info-registro-text .descargar-apk-btn:hover {
+            background-color: #FFA000;
         }
 
         .enlace-plataforma {
@@ -179,6 +198,23 @@
                 <select id="pais" name="pais" required>
                     <option value="">Seleccionar país</option>
                     <option value="+57">Colombia +57</option>
+                    <option value="+52">México +52</option>
+                    <option value="+54">Argentina +54</option>
+                    <option value="+34">España +34</option>
+                    <option value="+1">Estados Unidos +1</option>
+                    <option value="+51">Perú +51</option>
+                    <option value="+593">Ecuador +593</option>
+                    <option value="+56">Chile +56</option>
+                    <option value="+58">Venezuela +58</option>
+                    <option value="+507">Panamá +507</option>
+                    <option value="+502">Guatemala +502</option>
+                    <option value="+503">El Salvador +503</option>
+                    <option value="+504">Honduras +504</option>
+                    <option value="+505">Nicaragua +505</option>
+                    <option value="+506">Costa Rica +506</option>
+                    <option value="+591">Bolivia +591</option>
+                    <option value="+595">Paraguay +595</option>
+                    <option value="+598">Uruguay +598</option>
                     </select>
             </div>
             <div class="form-group">
@@ -218,8 +254,9 @@
                 <p><b>Nota Legal:</b></p>
                 <p>En cumplimiento con las regulaciones de protección al consumidor, Llutid+ le informa sobre la actualización de sus datos y los detalles de facturación correspondientes a su servicio. Este derecho a la información garantiza la transparencia y claridad en nuestra relación comercial.</p>
                 <br>
-                <a href="https://llutid.github.io/pagina-principal/" class="compartir-whatsapp-btn" onclick="compartirWhatsAppTexto()">Compartir por WhatsApp</a>
-                <p class="enlace-plataforma">Te recordamos el enlace de nuestra plataforma Llutid+ en la web: <a href="https://llutid.github.io/llutid-oficial-/" target="_blank">https://llutid.github.io/llutid-oficial-/</a></p>
+                <a href="#" class="compartir-whatsapp-btn" onclick="compartirWhatsAppTexto()">Compartir por WhatsApp</a>
+                <a href="https://apk.e-droid.net/apk/app3603927-me107o.apk?v=3" class="descargar-apk-btn" download>Descargar App Llutid+</a>
+                <p class="enlace-plataforma">Para dudas, preguntas, quejas o reclamos, usa nuestro ChatBot: <a href="https://llutid.github.io/chat-bot-llutid-/" target="_blank">ChatBot Llutid+</a></p>
             </div>
         </form>
     </div>
@@ -230,20 +267,29 @@
 
         function mostrarFacturacion() {
             const nombre = document.getElementById("nombreCompleto").value;
-            const paisSeleccionado = document.getElementById("pais").value;
+            const paisSelect = document.getElementById("pais");
+            const paisSeleccionado = paisSelect.options[paisSelect.selectedIndex].text; // Obtiene el texto completo
+            const codigoPais = paisSelect.value; // Obtiene el código (+57)
             const celular = document.getElementById("celular").value;
             const email = document.getElementById("email").value;
             const pin = document.getElementById("pinAcceso").value;
+
+            // Validar que todos los campos requeridos estén llenos
+            if (!nombre || !codigoPais || !celular || !email || !pin) {
+                alert("Por favor, rellena todos los campos del formulario antes de continuar.");
+                return; // Detiene la función si hay campos vacíos
+            }
+
             const fechaRegistro = new Date();
-            const fechaFormateada = fechaRegistro.toLocaleDateString() + " " + fechaRegistro.toLocaleTimeString();
-            const codigoRegistro = Math.random().toString(36).substring(2, 10).toUpperCase();
+            const fechaFormateada = fechaRegistro.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const codigoRegistro = 'INV-' + Math.random().toString(36).substring(2, 10).toUpperCase(); // Prefijo para factura
             const proximoPago = new Date(fechaRegistro);
             proximoPago.setDate(fechaRegistro.getDate() + 30);
-            const proximoPagoFormateado = proximoPago.toLocaleDateString();
+            const proximoPagoFormateado = proximoPago.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
             document.getElementById("regNombreTexto").textContent = nombre;
             document.getElementById("regNombreTextoInfo").textContent = nombre;
-            document.getElementById("regPaisTexto").textContent = paisSeleccionado;
+            document.getElementById("regPaisTexto").textContent = paisSeleccionado; // Muestra el nombre completo del país
             document.getElementById("regCelularTexto").textContent = celular;
             document.getElementById("regEmailTexto").textContent = email;
             document.getElementById("regPinTexto").textContent = pin;
@@ -252,50 +298,61 @@
             document.getElementById("regProximoPagoTexto").textContent = proximoPagoFormateado;
 
             infoRegistroTextoDiv.style.display = "block";
+            // Desplazar la vista hacia la sección de facturación
+            infoRegistroTextoDiv.scrollIntoView({ behavior: 'smooth' });
             alert("Datos actualizados. Desliza hacia abajo para ver la información de facturación y compartirla por WhatsApp.");
         }
 
         function compartirWhatsAppTexto() {
             const nombre = document.getElementById("regNombreTextoInfo").textContent;
-            const paisCodigo = document.getElementById("pais").value;
-            const numeroCelular = document.getElementById("celular").value;
+            const paisSelect = document.getElementById("pais");
+            const paisSeleccionado = paisSelect.options[paisSelect.selectedIndex].text; // Obtiene el texto completo
+            const codigoPais = paisSelect.value; // Obtiene el código (+57)
+            const celular = document.getElementById("celular").value;
             const email = document.getElementById("regEmailTexto").textContent;
             const pin = document.getElementById("regPinTexto").textContent;
             const fechaActualizacion = document.getElementById("regFechaTexto").textContent;
             const numeroFactura = document.getElementById("regCodigoTexto").textContent;
             const proximoPago = document.getElementById("regProximoPagoTexto").textContent;
-            const plataformaLink = "https://llutid.github.io/pagina-principal/";
+            const chatbotLink = "https://llutid.github.io/chat-bot-llutid-/"; // Enlace al ChatBot
+            const apkLink = "https://apk.e-droid.net/apk/app3603927-me107o.apk?v=3"; // Enlace al APK
 
-            const numeroWhatsApp = paisCodigo + numeroCelular;
-            const espacio = "     "; // Ajusta la cantidad de espacios según sea necesario
+            const numeroWhatsApp = codigoPais + celular;
 
-            const mensaje = encodeURIComponent(`
-${espacio} 🧾 *Facturación de Llutid+ Actualizada* 🧾 ${espacio}
+            const mensaje = `
+🧾 *Facturación de Actualización Llutid+* 🧾
 
-${espacio} *Estimado/a ${nombre},* ${espacio}
+👋 *Estimado/a ${nombre},*
 
-${espacio} A continuación, encontrará los detalles actualizados de su cuenta y la información de facturación correspondiente: ${espacio}
-
-     👤 *Información del Usuario:*
-      • *Nombre:* ${nombre}
-      • *País:* ${document.getElementById("regPaisTexto").textContent}
-      • *Celular:* ${numeroCelular}
-      • *Correo Electrónico:* ${email}
-      • *PIN de Acceso:* ${pin}
-
-     💰 *Detalles de Facturación:*
-      • *Fecha de Actualización:* ${fechaActualizacion}
-      • *Número de Factura:* ${numeroFactura}
-      • *Fecha de Vencimiento:* ${proximoPago}
+✅ Adjuntamos los detalles actualizados de su cuenta y la información de facturación correspondiente al periodo actual.
 
 ---
-     📜 *Nota Legal:*
-    En cumplimiento con las regulaciones de protección al consumidor, Llutid+ le informa sobre la actualización de sus datos y los detalles de facturación correspondientes a su servicio. Este derecho a la información garantiza la transparencia y claridad en nuestra relación comercial.
+👤 *Información del Usuario:*
+• *Nombre:* ${nombre}
+• *País:* ${paisSeleccionado}
+• *Celular:* ${celular}
+• *Correo Electrónico:* ${email}
+• *PIN de Acceso:* ${pin}
 
-${espacio} 🌐 Enlace a nuestra plataforma: ${plataformaLink} ${espacio}
-`);
+---
+💰 *Detalles de Facturación:*
+• *Fecha de Actualización:* ${fechaActualizacion}
+• *Número de Factura:* ${numeroFactura}
+• *Fecha de Vencimiento:* ${proximoPago}
 
-            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+---
+📜 *Nota Legal:*
+En cumplimiento con las regulaciones de protección al consumidor, Llutid+ le informa sobre la actualización de sus datos y los detalles de facturación correspondientes a su servicio. Este derecho a la información garantiza la transparencia y claridad en nuestra relación comercial.
+
+---
+🔗 *Enlaces Importantes:*
+• *ChatBot de Llutid+ (Dudas y Soporte):* ${chatbotLink}
+• *Descargar App Llutid+ (APK):* ${apkLink}
+
+¡Gracias por ser parte de Llutid+!
+`;
+
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
         }
     </script>
